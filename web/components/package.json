@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.1",
+    "@tanstack/react-query": "^4.29.14",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.44.3"
   },
   "devDependencies": {
     "@types/google.maps": "^3.53.2",
