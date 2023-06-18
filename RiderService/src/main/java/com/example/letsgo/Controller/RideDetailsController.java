@@ -1,9 +1,11 @@
 package com.example.letsgo.Controller;
 
 import com.example.letsgo.Dto.RideDetailsRequestDto;
+import com.example.letsgo.Dto.RiderGraph.RiderGraphResponseDto;
 import com.example.letsgo.Service.Impl.UserDetailServiceImpl;
 import com.example.letsgo.Service.UserDetailService;
 import org.aspectj.apache.bcel.classfile.Constant;
+import org.hibernate.annotations.FetchProfile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,4 +28,8 @@ public class RideDetailsController {
         return ResponseEntity.ok(rideNumber);
     }
 
+//    @GetMapping("fetchRiders/{latitude}/{longitude}")
+//    public ResponseEntity<RiderGraphResponseDto> fechRiders() {
+//
+//    }
 }
