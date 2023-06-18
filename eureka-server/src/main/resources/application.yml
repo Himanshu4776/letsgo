@@ -1,0 +1,11 @@
+server:
+  port: 8761
+  
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: ${EUREKA_URI:http://13.235.177.48:8761/eureka}
+  instance:
+    hostname: 13.235.177.48
