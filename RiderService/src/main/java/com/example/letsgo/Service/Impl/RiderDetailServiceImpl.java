@@ -2,21 +2,27 @@ package com.example.letsgo.Service.Impl;
 
 import com.example.letsgo.Dao.RideDetailsRepository;
 import com.example.letsgo.Dto.RideDetailsRequestDto;
+import com.example.letsgo.Dto.RiderGraph.RiderGraphResponseDto;
 import com.example.letsgo.Entity.RideDetailsEntity;
-import com.example.letsgo.Service.UserDetailService;
+import com.example.letsgo.Service.RiderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import static com.example.letsgo.constants.Constants.*;
+import static com.example.letsgo.utils.calculateDistance.distance;
+
 @Service
-public class UserDetailServiceImpl implements UserDetailService{
+public class RiderDetailServiceImpl implements RiderDetailService {
 
     @Autowired
     private RideDetailsRepository rideDetailsRepository;
 
 
-    public UserDetailServiceImpl(RideDetailsRepository rideDetailsRepository){
+    public RiderDetailServiceImpl(RideDetailsRepository rideDetailsRepository){
         this.rideDetailsRepository = rideDetailsRepository;
     }
 
@@ -69,6 +75,24 @@ public class UserDetailServiceImpl implements UserDetailService{
         return rideNumber;
     }
 
+    @Override
+    public RiderGraphResponseDto getAllRiders(double userLatitude, double userLongitude) {
+        List<RideDetailsEntity> ridersArr = rideDetailsRepository.findAll();
+        RiderGraphResponseDto ridersResponse = new RiderGraphResponseDto();
+
+        List<RideDetailsEntity> riders = new ArrayList<RideDetailsEntity>();
+
+        for (RideDetailsEntity rideDetailsEntity : ridersArr) {
+            if (distance(userLatitude, userLongitude, rideDetailsEntity.getDestinationLatitude(), rideDetailsEntity.getDestinationLongitude()) <= searchRadius) {
+                riders.add(rideDetailsEntity);
+            }
+        }
+
+        ridersResponse.setNoOfRiders(riders.size());
+        ridersResponse.setRiderResponseDto(riders);
+        return ridersResponse;
+    }
+
     private String generateUniqueRideNumber() {
         // Generate a random ride number using alphanumeric characters and a timestamp
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -90,10 +114,5 @@ public class UserDetailServiceImpl implements UserDetailService{
 
         return sb.toString();
     }
-
-
-
-
-//    }
 
 }
